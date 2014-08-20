@@ -155,11 +155,17 @@ for j = 1:numel(IndxPapTitle)
     end
 end
 
-[COEFF,SCORE,latent,tsquare] = princomp(WordFrequencies);
-Z = linkage(SCORE(:,1:5),'average','cityblock'); dendrogram(Z)
+%% Try different similarity measures
 
 
-Z = linkage(WordFrequencies','average','cityblock'); dendrogram(Z)
+
+
+[pca_loadings,pca_scores,pca_lambdas] = princomp(WordFrequencies);
+
+Y = pdist(pca_scores)
+
+Z = linkage(pca_scores(:,1:5),'average','cityblock'); dendrogram(Z)
+Z = linkage(WordFrequencies); dendrogram(Z)
 
 A = corrcov(cov(WordFrequencies));
  
